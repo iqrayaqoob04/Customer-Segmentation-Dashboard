@@ -1,3 +1,5 @@
+import os
+os.environ["PYTHONUNBUFFERED"] = "1"
 # ==================================================
 # INTERACTIVE POWER BI / TABLEAU STYLE DASHBOARD
 # Click any cluster → ALL charts update automatically
