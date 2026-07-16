@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pip install -r requirements.txt",
+  "devCommand": "gunicorn --bind 0.0.0.0:$PORT task1:app",
+  "installCommand": "pip install -r requirements.txt",
+  "framework": null,
+  "outputDirectory": null
+}
