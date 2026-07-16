@@ -3,7 +3,5 @@
   "devCommand": "gunicorn --bind 0.0.0.0:$PORT task1:app",
   "installCommand": "uv pip install --system -r requirements.txt",
   "framework": null,
-  "outputDirectory": null,
-  "cleanUrls": false,
-  "trailingSlash": false
+  "outputDirectory": null
 }
