@@ -1,4 +1,20 @@
 import os
+import sys
+# Disable timeout limits
+os.environ["PYTHONUNBUFFERED"] = "1"
+os.environ["VERCEL"] = "1"
+
+# ALL YOUR IMPORTS COME AFTER THIS:
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+import dash
+from dash import dcc, html, Input, Output
+import os
 import pandas as pd
 import numpy as np
 import plotly.express as px

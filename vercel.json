@@ -1,7 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "task1.py", "use": "@vercel/python" }
+    {
+      "src": "task1.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb"
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "task1.py" }
