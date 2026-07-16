@@ -1,6 +1,6 @@
+dash
 pandas
 numpy
-scikit-learn
 plotly
-dash
+scikit-learn
 gunicorn
