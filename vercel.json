@@ -1,7 +1,7 @@
 {
-  "buildCommand": "python -m pip install --upgrade pip && python -m pip install -r requirements.txt",
+  "buildCommand": "uv pip install --system -r requirements.txt",
   "devCommand": "gunicorn --bind 0.0.0.0:$PORT task1:app",
-  "installCommand": "python -m pip install --no-cache-dir -r requirements.txt",
+  "installCommand": "uv pip install --system -r requirements.txt",
   "framework": null,
   "outputDirectory": null
 }
