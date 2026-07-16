@@ -3,6 +3,5 @@
   "devCommand": "gunicorn --bind 0.0.0.0:$PORT task1:app",
   "installCommand": "python -m pip install --no-cache-dir -r requirements.txt",
   "framework": null,
-  "outputDirectory": null,
-  "pythonVersion": "3.11"
+  "outputDirectory": null
 }
