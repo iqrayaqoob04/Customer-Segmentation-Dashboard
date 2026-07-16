@@ -1,4 +1,69 @@
 import os
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+import dash
+from dash import dcc, html, Input, Output
+
+# ==================================================
+# 🚀 PRE-LOAD DATA & CLUSTERING ONCE (NOT EVERY VISIT)
+# ==================================================
+# This runs ONLY when building, not when users visit
+if not os.environ.get("VERCEL"):
+    pass  # normal run locally
+df = pd.read_csv("superstore_cleaned.csv", usecols=["Customer ID","Order ID","Sales","Profit","Quantity","Discount"])
+df = df.dropna(subset=["Customer ID","Sales","Profit","Discount"])
+
+# Customer metrics
+customer_metrics = df.groupby("Customer ID", as_index=False).agg(
+    total_sales=("Sales","sum"),
+    total_profit=("Profit","sum"),
+    total_orders=("Order ID","nunique"),
+    avg_discount=("Discount","mean")
+)
+
+# Outliers
+for col in ["total_sales","total_profit"]:
+    q1,q3 = customer_metrics[col].quantile([0.01,0.99])
+    iqr = q3-q1
+    customer_metrics = customer_metrics[(customer_metrics[col]>=q1-1.5*iqr) & (customer_metrics[col]<=q3+1.5*iqr)]
+
+# Clustering
+features = ["total_sales","total_profit","total_orders","avg_discount"]
+X_scaled = StandardScaler().fit_transform(customer_metrics[features])
+customer_metrics["Cluster"] = pd.Series(KMeans(4,random_state=42,n_init=10).fit_predict(X_scaled)).astype("category")
+
+# Add readable labels
+cluster_names = {
+    "0": "Low-Value / Low Discount",
+    "1": "🏆 High-Value Top Customers",
+    "2": "Mid-Tier / Steady Buyers",
+    "3": "Discount-Driven / Low Margin"
+}
+customer_metrics["Cluster Label"] = customer_metrics["Cluster"].astype(str).map(cluster_names)
+
+# ==================================================
+# 🎨 DASH THEME & APP START
+# ==================================================
+theme = {
+    "bg_main": "#121217",
+    "bg_card": "#1A1A22",
+    "text": "#E8E8F0",
+    "text_light": "#9CA3AF",
+    "grid": "#2A2A35",
+    "colors": ["#8B5CF6", "#3B82F6", "#10B981", "#F59E0B"]
+}
+
+app = dash.Dash(__name__)
+app.title = "Customer Segmentation Dashboard | Power BI Style"
+server = app.server  # ✅ KEEP THIS — CORRECT PLACE
+
+# --- REST OF YOUR CODE (layout, callbacks) STAYS EXACTLY THE SAME ---
+import os
 os.environ["PYTHONUNBUFFERED"] = "1"
 # ==================================================
 # INTERACTIVE POWER BI / TABLEAU STYLE DASHBOARD
