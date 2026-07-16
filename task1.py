@@ -63,7 +63,7 @@ customer_metrics["Cluster Label"] = customer_metrics["Cluster"].astype(str).map(
 # ==================================================
 app = dash.Dash(__name__)
 app.title = "Customer Segmentation Dashboard | Power BI Style"
-
+server = app.server
 app.layout = html.Div(style={"backgroundColor":theme["bg_main"], "color":theme["text"], "padding":"20px", "fontFamily":"Segoe UI, sans-serif"}, children=[
     html.H1("📊 Customer Segmentation Dashboard | Superstore K-Means Analysis", style={"textAlign":"center", "marginBottom":"30px", "fontWeight":"bold"}),
 
